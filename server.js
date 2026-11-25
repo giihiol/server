@@ -1,8 +1,8 @@
 
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
+
 app.set("trust proxy", 1);
 app.use(cors());
 app.use(express.json());
@@ -10,8 +10,7 @@ app.use(express.json());
 const used = new Map();
 
 app.post("/ask", async (req, res) => {
-  const vip =
-    process.env.VIP_CODE &&
+  const vip = process.env.VIP_CODE &&
     req.body.code === process.env.VIP_CODE;
 
   if (!vip) {
@@ -35,12 +34,10 @@ app.post("/ask", async (req, res) => {
         },
         body: JSON.stringify({
           model: "openai/gpt-oss-20b",
-          messages: [
-            {
-              role: "user",
-              content: String(req.body.question || "").slice(0, 1000)
-            }
-          ],
+          messages: [{
+            role: "user",
+            content: String(req.body.question || "").slice(0, 1000)
+          }],
           max_tokens: 500
         })
       }
@@ -61,9 +58,7 @@ app.post("/ask", async (req, res) => {
 
   } catch (e) {
     console.error(e);
-    res.status(500).json({
-      answer: "Khalad server"
-    });
+    res.status(500).json({ answer: "Khalad server" });
   }
 });
 
